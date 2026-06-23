@@ -8,12 +8,41 @@ export interface User {
   avatar: string;
 }
 
+// =========================================================
+// SOURCE OF TRUTH: User profiles defined here in code.
+// Names are ALWAYS resolved from this map, never from localStorage.
+// To rename a user, just update this map — no cache issues.
+// =========================================================
+const USER_PROFILES: Record<string, Partial<User>> = {
+  'u_iyan': {
+    name: 'Bpk. Iyan Satria',
+    role: 'Asisten Pimpinan',
+    nip: '198205122008011003',
+    avatar: '👨‍💼'
+  },
+  'u_fauzi': {
+    name: 'Dr. Ir. H. Ahmad Fauzi, ME.',
+    role: 'Asisten Pimpinan',
+    nip: '197509141998031002',
+    avatar: '👨‍💼'
+  }
+};
+
+/** Merge stored session with latest profile data from code */
+function resolveUser(stored: User | null): User | null {
+  if (!stored) return null;
+  const profile = USER_PROFILES[stored.id];
+  if (!profile) return stored;
+  return { ...stored, ...profile };
+}
+
 export function useAuth() {
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('e_aspri_user');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        // Always resolve against latest code profile on load
+        return resolveUser(JSON.parse(saved));
       } catch {
         return null;
       }
@@ -21,17 +50,10 @@ export function useAuth() {
     return null;
   });
 
+  // Sync any profile changes to localStorage
   useEffect(() => {
-    if (user && user.role !== 'Asisten Pimpinan') {
-      const updatedUser = { ...user, role: 'Asisten Pimpinan' };
-      setUser(updatedUser);
-      localStorage.setItem('e_aspri_user', JSON.stringify(updatedUser));
-    }
-    // Migrate old name to new name if still cached
-    if (user && user.name === 'Bapak Iyan, M.Si.') {
-      const updatedUser = { ...user, name: 'Bpk. Iyan Satria' };
-      setUser(updatedUser);
-      localStorage.setItem('e_aspri_user', JSON.stringify(updatedUser));
+    if (user) {
+      localStorage.setItem('e_aspri_user', JSON.stringify(user));
     }
   }, [user]);
 
@@ -47,12 +69,14 @@ export function useAuth() {
 
     // Mock verification
     if (nipOrUsername.trim().length > 3) {
+      const userId = nipOrUsername === 'iyan' ? 'u_iyan' : 'u_fauzi';
+      const profile = USER_PROFILES[userId];
       const mockUser: User = {
-        id: 'u_iyan',
-        name: nipOrUsername === 'iyan' ? 'Bpk. Iyan Satria' : 'Dr. Ir. H. Ahmad Fauzi, ME.',
-        role: 'Asisten Pimpinan',
-        nip: nipOrUsername === 'iyan' ? '198205122008011003' : '197509141998031002',
-        avatar: nipOrUsername === 'iyan' ? '👨‍💼' : '👨‍💼'
+        id: userId,
+        name: profile?.name ?? nipOrUsername,
+        role: profile?.role ?? 'Asisten Pimpinan',
+        nip: profile?.nip ?? '000000000000000000',
+        avatar: profile?.avatar ?? '👤'
       };
       
       setUser(mockUser);
