@@ -69,29 +69,50 @@ export const TaskPage = ({ tasks, onAddTask, onToggleTask, onDeleteTask }: TaskP
     <div className="space-y-6 select-none animate-fade-in">
       
       {/* 1. Header & Quick Actions */}
-      <div className="flex items-center justify-between gap-4">
-        <div>
+      <div className="flex items-start sm:items-center justify-between gap-4">
+        <div className="min-w-0">
           <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-100 font-display">
             Tugas Saya
           </h2>
-          <p className="text-xs text-slate-400 font-medium">
+          <p className="text-xs text-slate-400 font-medium hidden sm:block">
             Kelola agenda kerja, notulen tindak lanjut, dan tenggat waktu pimpinan.
           </p>
+          {/* Compact stats for mobile */}
+          <div className="flex items-center gap-3 mt-1.5 md:hidden">
+            <span className="text-[10px] font-bold text-slate-400">
+              <span className="text-brand font-mono">{tasks.filter(t => !t.completed).length}</span> aktif •{' '}
+              <span className="text-slate-500 font-mono">{tasks.filter(t => t.completed).length}</span> selesai
+            </span>
+            {tasks.length > 0 && (
+              <div className="flex items-center gap-1.5">
+                <div className="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-brand rounded-full transition-all duration-500"
+                    style={{ width: `${Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100)}%` }}
+                  />
+                </div>
+                <span className="text-[10px] font-bold text-brand font-mono">
+                  {Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100)}%
+                </span>
+              </div>
+            )}
+          </div>
         </div>
 
         <Button
           variant="primary"
           size="sm"
-          className="h-9 px-3.5 font-semibold text-xs"
+          className="h-9 px-3.5 font-semibold text-xs shrink-0"
           onClick={() => setIsOpenAdd(true)}
         >
           <Plus size={14} />
-          Tambah Tugas
+          <span className="hidden sm:inline">Tambah Tugas</span>
+          <span className="sm:hidden">Tambah</span>
         </Button>
       </div>
 
       {/* 2. Tasks Filters & Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4.5">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Left 3 cols: Filter list */}
         <div className="md:col-span-3 space-y-4">
           
@@ -191,8 +212,8 @@ export const TaskPage = ({ tasks, onAddTask, onToggleTask, onDeleteTask }: TaskP
 
         </div>
 
-        {/* Right 1 col: Stats/KPI widgets */}
-        <div className="space-y-4">
+        {/* Right 1 col: Stats/KPI widgets - hidden on mobile (shown in header) */}
+        <div className="hidden md:block space-y-4">
           <Card className="bg-white dark:bg-slate-900/10 border-slate-200 dark:border-slate-800">
             <CardHeader className="p-4 pb-2">
               <CardTitle className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">

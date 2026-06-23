@@ -130,15 +130,16 @@ ${meeting.actionItems.map((item, idx) => `${idx + 1}. ${item}`).join('\n')}
           </p>
         </div>
 
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button
             variant="outline"
             size="sm"
-            className="h-9 px-3.5 font-semibold text-xs relative"
+            className="h-9 px-3 font-semibold text-xs relative flex-1 sm:flex-none"
             disabled={isProcessing}
           >
             <Upload size={13} />
-            Unggah Audio Rapat
+            <span className="hidden sm:inline">Unggah Audio Rapat</span>
+            <span className="sm:hidden">Unggah Audio</span>
             <input 
               type="file" 
               className="absolute inset-0 opacity-0 cursor-pointer" 
@@ -151,12 +152,13 @@ ${meeting.actionItems.map((item, idx) => `${idx + 1}. ${item}`).join('\n')}
           <Button
             variant="primary"
             size="sm"
-            className="h-9 px-3.5 font-semibold text-xs bg-red-500 hover:bg-red-650 text-white animate-pulse"
+            className="h-9 px-3 font-semibold text-xs bg-red-500 hover:bg-red-650 text-white animate-pulse flex-1 sm:flex-none"
             disabled={isProcessing}
             onClick={triggerMockRecording}
           >
             <Mic size={13} />
-            Simulasi Rekam Suara
+            <span className="hidden sm:inline">Simulasi Rekam Suara</span>
+            <span className="sm:hidden">Simulasi Rekam</span>
           </Button>
         </div>
       </div>

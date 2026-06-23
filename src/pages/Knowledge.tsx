@@ -331,7 +331,8 @@ export const Knowledge = ({ files, onUploadFile, setActivePage, onTriggerChatCom
           </Card>
         ) : (
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/5 overflow-hidden">
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200 dark:border-slate-800 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
@@ -376,6 +377,41 @@ export const Knowledge = ({ files, onUploadFile, setActivePage, onTriggerChatCom
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Card List View */}
+            <div className="md:hidden divide-y divide-slate-200 dark:divide-slate-800/50">
+              {filteredFiles.map((file) => (
+                <div
+                  key={file.id}
+                  className="flex items-center gap-3 p-3.5 hover:bg-slate-50 dark:hover:bg-slate-900/20 transition-colors"
+                >
+                  <div className="p-2.5 rounded-xl bg-brand/5 border border-brand/10 text-brand shrink-0">
+                    <FileText size={16} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                      {file.name}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Badge variant="secondary" className="px-1.5 py-0 text-[8px] font-bold">
+                        {folders.find(f => f.key === file.category)?.name.split(' ')[0] || file.category}
+                      </Badge>
+                      <span className="text-[9px] font-mono text-slate-400">{file.size}</span>
+                      <span className="text-[9px] font-mono text-slate-400">
+                        {new Date(file.uploadDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setViewingFile(file)}
+                    className="text-[10px] font-bold text-brand hover:text-brand/80 transition-colors shrink-0 px-2 py-1.5 rounded-lg bg-brand/5 border border-brand/10"
+                  >
+                    Buka
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

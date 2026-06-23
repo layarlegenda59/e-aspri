@@ -28,6 +28,22 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-tap-highlight-color: transparent;
+  /* Prevent overscroll bounce on iOS */
+  overscroll-behavior: none;
+}
+
+/* Fix 100vh on mobile browsers (accounts for address bar) */
+:root {
+  --app-height: 100dvh;
+}
+
+/* Safe area padding bottom for iPhone home indicator */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0px);
 }
 
 /* Custom Scrollbars */
@@ -91,4 +107,16 @@ body {
 /* Active command code style */
 code {
   font-family: 'Fira Code', 'Courier New', Courier, monospace;
+}
+
+/* Ensure full-height app container on mobile */
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile touch scroll improvements */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
 }

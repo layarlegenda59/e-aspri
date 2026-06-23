@@ -26,32 +26,34 @@ export const BottomNav = ({ activePage, setActivePage, className }: BottomNavPro
   ];
 
   return (
-    <nav className={cn("fixed bottom-0 left-0 right-0 z-40 h-16 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-800 glass flex items-center justify-around px-2 select-none safe-bottom", className)}>
-      {menuItems.map((item) => {
-        const Icon = item.icon;
-        const isActive = activePage === item.id;
-        return (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => setActivePage(item.id)}
-            className="flex flex-col items-center justify-center flex-1 h-full py-1 gap-1 text-slate-500 dark:text-slate-400 active:scale-95 transition-transform"
-          >
-            <div className={cn(
-              "p-1 rounded-lg transition-colors",
-              { "bg-brand/10 text-brand": isActive }
-            )}>
-              <Icon size={18} className={cn({ "stroke-[2.5]": isActive })} />
-            </div>
-            <span className={cn(
-              "text-[9px] font-semibold tracking-tight transition-colors leading-none",
-              { "text-brand": isActive, "text-slate-500 dark:text-slate-450": !isActive }
-            )}>
-              {item.label}
-            </span>
-          </button>
-        );
-      })}
+    <nav className={cn("fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-800 glass flex flex-col items-stretch select-none safe-bottom", className)}>
+      <div className="flex items-center justify-around px-1 h-16">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activePage === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setActivePage(item.id)}
+              className="flex flex-col items-center justify-center flex-1 h-full py-1 gap-0.5 text-slate-500 dark:text-slate-400 active:scale-90 transition-transform touch-manipulation"
+            >
+              <div className={cn(
+                "p-1.5 rounded-xl transition-colors",
+                { "bg-brand/10 text-brand": isActive }
+              )}>
+                <Icon size={20} className={cn({ "stroke-[2.5]": isActive })} />
+              </div>
+              <span className={cn(
+                "text-[9px] font-semibold tracking-tight transition-colors leading-none",
+                { "text-brand": isActive, "text-slate-500 dark:text-slate-450": !isActive }
+              )}>
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </nav>
   );
 };

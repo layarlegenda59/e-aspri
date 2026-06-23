@@ -122,7 +122,7 @@ export const Chat = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row gap-6 h-[calc(100vh-130px)] select-none">
+    <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-6 h-[calc(100dvh-9rem)] md:h-[calc(100dvh-7rem)] select-none">
       
       {/* LEFT PANE: Chat Log & Input */}
       <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-slate-900/10 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 overflow-hidden relative">
@@ -195,7 +195,7 @@ export const Chat = ({
 
       {/* RIGHT PANE: Split screen editor (collapsible, displays when a draft is active) */}
       {activeDraft && (
-        <div className="w-full md:w-[420px] xl:w-[480px] shrink-0 animate-fade-in flex flex-col">
+        <div className="w-full md:w-[420px] xl:w-[480px] shrink-0 animate-fade-in flex flex-col max-h-[45vh] md:max-h-none">
           <Card className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-slate-900/10 border-slate-200 dark:border-slate-800">
             <CardHeader className="p-4 bg-slate-550/10 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex flex-row items-center justify-between space-y-0">
               <div className="flex items-center gap-2">
