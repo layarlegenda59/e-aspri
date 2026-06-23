@@ -27,6 +27,12 @@ export function useAuth() {
       setUser(updatedUser);
       localStorage.setItem('e_aspri_user', JSON.stringify(updatedUser));
     }
+    // Migrate old name to new name if still cached
+    if (user && user.name === 'Bapak Iyan, M.Si.') {
+      const updatedUser = { ...user, name: 'Bpk. Iyan Satria' };
+      setUser(updatedUser);
+      localStorage.setItem('e_aspri_user', JSON.stringify(updatedUser));
+    }
   }, [user]);
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +49,7 @@ export function useAuth() {
     if (nipOrUsername.trim().length > 3) {
       const mockUser: User = {
         id: 'u_iyan',
-        name: nipOrUsername === 'iyan' ? 'Bapak Iyan, M.Si.' : 'Dr. Ir. H. Ahmad Fauzi, ME.',
+        name: nipOrUsername === 'iyan' ? 'Bpk. Iyan Satria' : 'Dr. Ir. H. Ahmad Fauzi, ME.',
         role: 'Asisten Pimpinan',
         nip: nipOrUsername === 'iyan' ? '198205122008011003' : '197509141998031002',
         avatar: nipOrUsername === 'iyan' ? '👨‍💼' : '👨‍💼'
