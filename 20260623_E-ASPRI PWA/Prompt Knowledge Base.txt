@@ -1,0 +1,239 @@
+Tambahkan bagian berikut ke prompt E-Aspri yang sudah kita buat sebelumnya. Ini akan menjadi panduan AI Builder untuk mendesain **Knowledge Base yang benar-benar relevan untuk Asisten Pimpinan Bappeda**, bukan sekadar tempat upload file.
+
+---
+
+# KNOWLEDGE BASE DESIGN (IMPORTANT)
+
+The Knowledge Base is one of the core components of E-Aspri.
+
+Its purpose is not only document storage, but to create an AI assistant that understands the working context, writing style, planning documents, and administrative workflows commonly used by executive assistants and planning agencies.
+
+The AI should prioritize answers based on uploaded organizational documents before relying on general knowledge.
+
+---
+
+## Knowledge Base Categories
+
+### 1. Personal Working Documents
+
+Used to learn the user's working style and frequently used document formats.
+
+Examples:
+
+* Previous speeches
+* Previous remarks and opening statements
+* Meeting notes
+* Briefing notes
+* Executive summaries
+* Previous reports
+* Previous TOR documents
+* Previous official letters
+* Previous internal memos
+
+AI should learn:
+
+* writing style
+* document structure
+* preferred wording
+* commonly used phrases
+
+---
+
+### 2. Official Administrative Templates
+
+Used as references when generating new documents.
+
+Examples:
+
+* Official letter templates
+* Invitation letter templates
+* Internal memo templates
+* Nota Dinas templates
+* Disposition templates
+* Meeting invitation templates
+
+AI should generate documents using the same formatting and structure found in uploaded templates.
+
+---
+
+### 3. Planning and Development Documents
+
+Used to provide planning context.
+
+Examples:
+
+* RPJMD
+* RKPD
+* Renstra
+* Renja
+* Strategic planning documents
+* Regional development plans
+* Development priorities
+
+AI should use these documents when answering planning-related questions.
+
+Examples:
+
+* Generate speeches aligned with development priorities.
+* Create briefing notes based on RKPD.
+* Explain development targets from planning documents.
+
+---
+
+### 4. Monitoring and Evaluation Documents
+
+Examples:
+
+* Monitoring reports
+* Evaluation reports
+* Quarterly reports
+* Semester reports
+* Annual reports
+* Performance reports
+
+AI should be able to:
+
+* summarize reports
+* identify key achievements
+* identify issues and bottlenecks
+* generate executive summaries
+
+---
+
+### 5. Meeting and Coordination Documents
+
+Examples:
+
+* Meeting minutes
+* Meeting transcripts
+* Coordination meeting reports
+* Follow-up reports
+
+AI should automatically extract:
+
+* key decisions
+* action items
+* responsible persons
+* deadlines
+
+---
+
+### 6. Musrenbang and Proposal Documents
+
+Examples:
+
+* Musrenbang reports
+* OPD proposals
+* Program proposals
+* Development proposals
+
+AI should be able to:
+
+* summarize proposals
+* identify priorities
+* compare proposals
+* generate briefing notes
+
+---
+
+### 7. Standard Operating Procedures (SOP)
+
+Examples:
+
+* Internal SOPs
+* Administrative SOPs
+* Planning procedures
+* Coordination procedures
+
+AI should answer operational questions using SOP references whenever available.
+
+---
+
+## AI Knowledge Priority
+
+When generating responses, prioritize information using the following hierarchy:
+
+1. Uploaded personal documents
+2. Uploaded organizational documents
+3. Uploaded planning documents
+4. Uploaded SOP documents
+5. General AI knowledge
+
+This ensures outputs remain aligned with actual organizational practices.
+
+---
+
+## Smart Actions for Every Uploaded Document
+
+Every uploaded document should support:
+
+* Summarize
+* Extract key points
+* Generate executive summary
+* Create briefing note
+* Generate meeting minutes
+* Extract action items
+* Generate presentation outline
+* Generate speech points
+* Generate follow-up checklist
+
+---
+
+## Suggested Initial Knowledge Base Structure
+
+Folder: Personal Documents
+
+* Speeches
+* Remarks
+* Briefing Notes
+* Meeting Notes
+
+Folder: Administrative Templates
+
+* Letters
+* Invitations
+* Nota Dinas
+* Internal Memos
+
+Folder: Planning Documents
+
+* RPJMD
+* RKPD
+* Renstra
+* Renja
+
+Folder: Monitoring & Evaluation
+
+* Quarterly Reports
+* Annual Reports
+* Evaluation Reports
+
+Folder: Meetings & Coordination
+
+* Meeting Minutes
+* Coordination Reports
+
+Folder: Musrenbang & Proposals
+
+* Proposal Documents
+* Musrenbang Results
+
+Folder: SOP
+
+* Administrative SOPs
+* Planning SOPs
+* Internal Procedures
+
+---
+
+## Future Enhancement
+
+Design the architecture so the Knowledge Base can evolve into an organizational memory system, allowing E-Aspri to become a true AI co-worker that understands the organization's history, priorities, terminology, templates, and decision-making patterns.
+
+---
+
+Menurut saya, fitur **Knowledge Base + Chat AI** inilah yang akan menjadi nilai jual utama E-Aspri. Bahkan jika Task Tracker belum sempurna, selama Iyan bisa upload dokumen, lalu bertanya:
+
+> "Buatkan sambutan Kepala Bappeda berdasarkan RKPD 2026 dan gaya pidato yang biasa digunakan."
+
+dan hasilnya bagus, dia akan langsung merasakan manfaatnya. Itu yang akan membuat aplikasi dipakai berulang kali.
