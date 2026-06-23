@@ -1,9 +1,9 @@
 // =========================================================
-// E-Aspri PWA Service Worker
+// E-Aspri PWA Service Worker v4
 // Strategy: Network-first for HTML, Cache-first for assets
 // Change CACHE_VERSION to force update on all devices
 // =========================================================
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const CACHE_NAME = `e-aspri-cache-${CACHE_VERSION}`;
 const STATIC_ASSETS = [
   '/',
@@ -70,4 +70,11 @@ self.addEventListener('fetch', event => {
       });
     })
   );
+});
+
+// ---- MESSAGE: Listen for SKIP_WAITING from main app ----
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
