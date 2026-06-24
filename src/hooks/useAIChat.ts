@@ -118,10 +118,15 @@ ${uploadedFiles.length === 0 ? '- (Tidak ada berkas rujukan diunggah)' : uploade
 Gunakan informasi berkas di atas sebagai prioritas rujukan utama jika pengguna menanyakan tentang dokumen perencanaan, RKPD, RPJMD, SOP, atau draf surat dinas terkait.`
     };
 
+    // Limit to last 10 messages to avoid 413 Payload Too Large
+    // (localStorage accumulates history across sessions on mobile)
+    const MAX_HISTORY = 10;
+    const trimmedHistory = messagesHistory.slice(-MAX_HISTORY);
+
     // Filter message histories to only match the API standard (role, content)
     const apiMessages = [
       systemMsg,
-      ...messagesHistory.map(m => ({
+      ...trimmedHistory.map(m => ({
         role: m.role,
         content: m.content
       }))
@@ -145,7 +150,7 @@ Gunakan informasi berkas di atas sebagai prioritas rujukan utama jika pengguna m
         model: model,
         messages: apiMessages,
         temperature: 0.25,
-        max_tokens: 2500
+        max_tokens: 2048   // Cap response size to stay within Groq limits
       })
     });
 
@@ -208,7 +213,8 @@ export function useAIChat(
     
     if (groqApiKey) {
       try {
-        const history = newUserMsg ? [...messages, newUserMsg] : [...messages];
+        // Only send last 10 messages to avoid 413 on devices with long history
+        const history = newUserMsg ? [...messages.slice(-10), newUserMsg] : [...messages.slice(-10)];
         const reply = await callGroqAPI(history, customPrompt, uploadedFiles, groqApiKey, groqModel);
         setIsTyping(false);
         addMessage('assistant', reply);
@@ -302,7 +308,7 @@ export function useAIChat(
           `- Naskah sambutan wajib memuat struktur lengkap: Protokol Sapaan Kehormatan (dari eselon tertinggi ke terendah), Pembuka/Mukadimah, Isi Substansi (menguraikan tema secara mendalam, kebijakan daerah, arah pembangunan RKPD/RPJMD, serta sinergi lintas sektor secara terstruktur), Penutup (harapan, doa, apresiasi, salam penutup).\n` +
           `- Jangan mengarang hal yang tidak logis.\n\n` +
           `Letakkan keseluruhan isi dokumen resmi tersebut di dalam satu buah blok kode \`\`\` sehingga pengguna bisa menyimpannya secara otomatis.`;
-        const reply = await callGroqAPI([...messages, userMsg], commandPrompt, uploadedFiles, groqApiKey, groqModel);
+        const reply = await callGroqAPI([...messages.slice(-10), userMsg], commandPrompt, uploadedFiles, groqApiKey, groqModel);
         setIsTyping(false);
         addMessage('assistant', reply);
       } catch (err: any) {

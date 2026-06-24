@@ -63,7 +63,7 @@ export function useAuth() {
   const login = async (nipOrUsername: string, pass: string) => {
     setLoading(true);
     setError(null);
-    
+
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 800));
 
@@ -78,7 +78,7 @@ export function useAuth() {
         nip: profile?.nip ?? '000000000000000000',
         avatar: profile?.avatar ?? '👤'
       };
-      
+
       setUser(mockUser);
       localStorage.setItem('e_aspri_user', JSON.stringify(mockUser));
       setLoading(false);
