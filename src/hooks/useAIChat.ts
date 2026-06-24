@@ -65,6 +65,31 @@ Ketik simbol \`/\` di kolom chat untuk membuka menu **Formulir Terpandu** perint
 
 import { PustakaFile } from '../types';
 
+// =========================================================
+// Strip ALL markdown from AI-generated document output
+// Called on every Groq API response before displaying
+// =========================================================
+const stripDocMarkdown = (text: string): string => {
+  return text
+    // Remove triple backtick code blocks wrapper but keep content inside
+    .replace(/^```[\w]*\n?/gm, '')
+    .replace(/```\s*$/gm, '')
+    // Remove **bold** → plain text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    // Remove *italic* → plain text
+    .replace(/\*([^*\n]+)\*/g, '$1')
+    // Remove markdown headers (# ## ###) → keep the text, uppercase
+    .replace(/^#{1,6}\s+(.+)$/gm, (_, t) => t.toUpperCase())
+    // Convert markdown bullet `* item` at line start → `  - item`
+    .replace(/^\* (.+)$/gm, '  - $1')
+    // Remove remaining lone asterisks (e.g. `1. **Point**` leftovers)
+    .replace(/\*\*/g, '')
+    .replace(/(?<![\d\w])\*(?![\d\w*])/g, '')
+    // Clean up any triple+ blank lines → double blank line
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+};
+
 // Helper function to call the Groq completions endpoint
 const callGroqAPI = async (
   messagesHistory: Message[],
@@ -83,11 +108,13 @@ Aturan Penulisan & Kepribadian:
 - Hindari jargon teknis seperti "Saya adalah model AI", "LLM", dll. Jawab langsung seolah Anda adalah asisten manusia yang terampil.
 - Gunakan Bahasa Indonesia formal yang santun khas lingkungan birokrasi pemerintahan/ASN.
 
-ATURAN FORMAT DRAFT DOKUMEN & BEBAS MARKDOWN (MUTLAK):
-- DILARANG menggunakan tanda markdown seperti hashtag (#, ##, ###) untuk judul/header, maupun bintang/asterisk (*, **) untuk cetak tebal/miring di dalam draf dokumen resmi/naskah.
-- Sebagai gantinya, gunakan huruf kapital (UPPERCASE) secara polos untuk penulisan judul dan bagian penekanan penting.
-- Gunakan pemisah baris kosong biasa dan penomoran polos (1., 2., 3.) untuk daftar poin.
-- Dokumen draf harus bersih dari simbol markdown agar langsung dapat disalin ke Microsoft Word atau aplikasi perkantoran resmi.
+ATURAN FORMAT DRAFT DOKUMEN & BEBAS MARKDOWN — ZERO TOLERANCE:
+- MUTLAK DILARANG KERAS menggunakan tanda bintang/asterisk ganda (**teks**) maupun tunggal (*teks*) untuk cetak tebal atau miring di mana pun dalam respons.
+- MUTLAK DILARANG menggunakan hashtag (#, ##, ###) untuk judul atau header apa pun.
+- JANGAN pernah menggunakan simbol markdown: **, *, #, ##, ###, __, _, ~~, `, ```.
+- Output HARUS berupa teks polos (plain text) murni 100%, tanpa SATU PUN simbol markdown.
+- Sebagai gantinya, gunakan HURUF KAPITAL untuk judul, nomor urut (1., 2., A., B.), dan garis pemisah polos (===) untuk struktur dokumen.
+- Dokumen harus langsung bisa disalin ke Microsoft Word tanpa perlu membersihkan simbol apa pun.
 
 ATURAN TATA LETAK, TABULASI & INDENTASI DOKUMEN:
 - Buat header dokumen dinas yang rapi. Sejajarkan posisi titik dua (:) pada bagian metadata menggunakan spasi penyesuai agar berbaris lurus vertikal secara rapi dan estetis. Contoh:
@@ -160,7 +187,9 @@ Gunakan informasi berkas di atas sebagai prioritas rujukan utama jika pengguna m
     }
 
     const data = await response.json();
-    return data.choices[0]?.message?.content || '';
+    const rawContent = data.choices[0]?.message?.content || '';
+    // Always strip any markdown symbols from AI output before returning
+    return stripDocMarkdown(rawContent);
   } catch (err: any) {
     console.error("Groq API error:", err);
     throw err;
