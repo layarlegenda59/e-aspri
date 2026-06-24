@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useAuth } from './hooks/useAuth';
 import { useAIChat } from './hooks/useAIChat';
 import { AppLayout } from './components/AppLayout';
+import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 
 // Pages
 import { Auth } from './pages/Auth';
@@ -224,22 +225,28 @@ export default function App() {
   // Render Auth screen if session is empty
   if (!user) {
     return (
-      <Auth 
-        onLogin={login} 
-        error={authError} 
-        loading={authLoading} 
-      />
+      <>
+        <Auth 
+          onLogin={login} 
+          error={authError} 
+          loading={authLoading} 
+        />
+        <PWAInstallPrompt />
+      </>
     );
   }
 
   return (
-    <AppLayout
-      activePage={activePage}
-      setActivePage={setActivePage}
-      user={user}
-      onLogout={logout}
-    >
-      {renderActivePage()}
-    </AppLayout>
+    <>
+      <AppLayout
+        activePage={activePage}
+        setActivePage={setActivePage}
+        user={user}
+        onLogout={logout}
+      >
+        {renderActivePage()}
+      </AppLayout>
+      <PWAInstallPrompt />
+    </>
   );
 }

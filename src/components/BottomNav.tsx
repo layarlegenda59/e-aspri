@@ -2,7 +2,6 @@ import * as React from 'react';
 import { 
   LayoutDashboard, 
   Bot, 
-  FileText, 
   Mic, 
   CheckSquare, 
   Library 
@@ -18,11 +17,10 @@ interface BottomNavProps {
 export const BottomNav = ({ activePage, setActivePage, className }: BottomNavProps) => {
   const menuItems = [
     { id: 'dashboard', label: 'Beranda', icon: LayoutDashboard },
-    { id: 'chat', label: 'Bot Aspri', icon: Bot },
-    { id: 'draft', label: 'Pusat Draft', icon: FileText },
-    { id: 'meeting', label: 'Rapat', icon: Mic },
-    { id: 'task', label: 'Tugas', icon: CheckSquare },
-    { id: 'knowledge', label: 'Pustaka', icon: Library }
+    { id: 'chat',      label: 'Bot Aspri', icon: Bot },
+    { id: 'meeting',   label: 'Rapat',    icon: Mic },
+    { id: 'task',      label: 'Tugas',    icon: CheckSquare },
+    { id: 'knowledge', label: 'Pustaka',  icon: Library }
   ];
 
   return (
