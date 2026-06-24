@@ -265,15 +265,15 @@ export function useAIChat(
     const cmdMeta = COMMANDS_METADATA[command as keyof typeof COMMANDS_METADATA];
     if (!cmdMeta) return;
 
-    // Add user message displaying command inputs
+    // Add user message displaying command inputs (plain text, no markdown)
     const displayInputs = Object.entries(values)
       .map(([key, val]) => {
         const field = cmdMeta.fields.find(f => f.key === key);
-        return `* **${field?.label || key}**: ${val}`;
+        return `  - ${field?.label || key}: ${val}`;
       })
       .join('\n');
 
-    const userMessageContent = `Memicu Perintah: **${cmdMeta.name}**\n\n${displayInputs}`;
+    const userMessageContent = `Memicu Perintah: ${cmdMeta.name}\n\n${displayInputs}`;
     const userMsg = addMessage('user', userMessageContent, {
       isCommand: true,
       commandType: command,
