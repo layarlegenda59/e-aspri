@@ -111,7 +111,7 @@ Aturan Penulisan & Kepribadian:
 ATURAN FORMAT DRAFT DOKUMEN & BEBAS MARKDOWN — ZERO TOLERANCE:
 - MUTLAK DILARANG KERAS menggunakan tanda bintang/asterisk ganda (**teks**) maupun tunggal (*teks*) untuk cetak tebal atau miring di mana pun dalam respons.
 - MUTLAK DILARANG menggunakan hashtag (#, ##, ###) untuk judul atau header apa pun.
-- JANGAN pernah menggunakan simbol markdown: **, *, #, ##, ###, __, _, ~~, `, ```.
+- JANGAN pernah menggunakan simbol markdown: **, *, #, ##, ###, __, _, ~~, tanda backtick ataupun triple backtick.
 - Output HARUS berupa teks polos (plain text) murni 100%, tanpa SATU PUN simbol markdown.
 - Sebagai gantinya, gunakan HURUF KAPITAL untuk judul, nomor urut (1., 2., A., B.), dan garis pemisah polos (===) untuk struktur dokumen.
 - Dokumen harus langsung bisa disalin ke Microsoft Word tanpa perlu membersihkan simbol apa pun.
